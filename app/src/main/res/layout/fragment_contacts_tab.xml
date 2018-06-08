@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/friend_requests_container"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <View
+            android:id="@+id/divider_view2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/friend_requests_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik"
+            android:text="Friend requests"
+            android:textAlignment="viewStart"
+            android:textSize="16.26sp"
+            app:layout_constraintBottom_toBottomOf="@+id/user_profile_image"
+            app:layout_constraintEnd_toStartOf="@+id/send_request_button"
+            app:layout_constraintStart_toEndOf="@+id/user_profile_image"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_image" />
+
+        <ImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_placeholder_24dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/contacts_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:fastScrollAutoHide="true"
+        app:fastScrollAutoHideDelay="1500"
+        app:fastScrollEnableThumbInactiveColor="true"
+        app:fastScrollPopupBackgroundSize="88dp"
+        app:fastScrollPopupBgColor="@color/colorAccent"
+        app:fastScrollPopupPosition="adjacent"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollPopupTextSize="56sp"
+        app:fastScrollThumbColor="@color/colorAccent"
+        app:fastScrollThumbEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friend_requests_container"
+        tools:listitem="@layout/item_user" />
+
+</android.support.constraint.ConstraintLayout>
