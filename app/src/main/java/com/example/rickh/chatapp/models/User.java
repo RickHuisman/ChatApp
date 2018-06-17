@@ -1,6 +1,7 @@
 package com.example.rickh.chatapp.models;
 
 public class User {
+
     private String mUserProfilePicture;
     private String mUserName;
     private String userUid;
@@ -8,7 +9,12 @@ public class User {
     private boolean sendFriendRequest;
     private boolean receivedFriendRequest;
 
-    public User(String profilePicture, String name, String userUid, Boolean isFriend, Boolean sendFriendRequest, Boolean receivedFriendRequest) {
+    public User(String profilePicture,
+                String name,
+                String userUid,
+                Boolean isFriend,
+                Boolean sendFriendRequest,
+                Boolean receivedFriendRequest) {
         this.mUserProfilePicture = profilePicture;
         this.mUserName = name;
         this.userUid = userUid;

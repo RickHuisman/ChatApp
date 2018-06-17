@@ -51,9 +51,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
         public UserListViewHolder(View itemView) {
             super(itemView);
-            mProfileImageView = itemView.findViewById(R.id.user_profile_image);
+            mProfileImageView = itemView.findViewById(R.id.chat_icon_image);
             mRemoveFriendImage = itemView.findViewById(R.id.remove_friend_image);
-            mUserNameTextView = itemView.findViewById(R.id.user_name_text);
+            mUserNameTextView = itemView.findViewById(R.id.chat_title_text);
             mSendRequestButton = itemView.findViewById(R.id.send_request_button);
             mCancelRequestButton = itemView.findViewById(R.id.cancel_request_button);
             mProgressBar = itemView.findViewById(R.id.progressbar);

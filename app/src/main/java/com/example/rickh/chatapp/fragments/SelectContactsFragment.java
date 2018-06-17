@@ -2,6 +2,7 @@ package com.example.rickh.chatapp.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,16 +97,6 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
 
                 ImageView test = (ImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
                 test.setColorFilter(R.color.colorTextHint);
-
-//                EditText searchEditText = (EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-//                searchEditText.
-//                searchEditText.setTextColor(getResources().getColor(R.color.colorTextWhite));
-//                searchEditText.setHintTextColor(getResources().getColor(R.color.colorTextHint));
-
-//                searchView.set
-//
-//                searchView.setTextColor(getResources().getColor(R.color.white));
-//                searchView.setHintTextColor(getResources().getColor(R.color.white));
 
                 SearchView mSearchView = (SearchView) mSearch.getActionView();
                 mSearchView.setQueryHint("Search");
@@ -220,9 +212,8 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
         final ContactChip chip = new ContactChip(getContext(), contactId);
 
         chip.setChipIconEnabled(true);
-        chip.setTextAppearance(R.style.ChatApp_Chip_Text);
+        chip.setTextAppearanceResource(R.style.ChatApp_Chip_Text);
         chip.setChipBackgroundColorResource(R.color.colorAccent);
-        chip.setTextColor(getResources().getColor(R.color.colorTextWhite));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.circleCrop();
@@ -240,15 +231,29 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
                     }
                 });
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(10, 0, 10, 10);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        int marginPx = convertDptoPx(5);
+        lp.setMargins(
+                marginPx,
+                marginPx,
+                marginPx,
+                marginPx);
         chip.setLayoutParams(lp);
 
         chip.setChipText(text);
 
         mChipContainer.addView(chip);
         mChipList.add(chip);
+    }
+
+    private int convertDptoPx(int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics());
     }
 
     @Override
@@ -265,7 +270,6 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
 
     @Override
     public void onRowSelected(int position) {
-        System.out.println("position = " + position);
         String imageURL = mContactList.get(position).getmContactProfilePicture();
         String title = mContactList.get(position).getmContactName();
         Contact contact = mContactList.get(position);

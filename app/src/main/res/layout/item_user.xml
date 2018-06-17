@@ -9,7 +9,7 @@
     android:focusable="true">
 
     <ImageView
-        android:id="@+id/user_profile_image"
+        android:id="@+id/chat_icon_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="12dp"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/ic_placeholder_24dp" />
 
     <TextView
-        android:id="@+id/user_name_text"
+        android:id="@+id/chat_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -32,10 +32,10 @@
         android:text="Username"
         android:textAlignment="viewStart"
         android:textSize="16.26sp"
-        app:layout_constraintBottom_toBottomOf="@+id/user_profile_image"
+        app:layout_constraintBottom_toBottomOf="@+id/chat_icon_image"
         app:layout_constraintEnd_toStartOf="@+id/send_request_button"
-        app:layout_constraintStart_toEndOf="@+id/user_profile_image"
-        app:layout_constraintTop_toTopOf="@+id/user_profile_image" />
+        app:layout_constraintStart_toEndOf="@+id/chat_icon_image"
+        app:layout_constraintTop_toTopOf="@+id/chat_icon_image" />
 
     <android.support.design.button.MaterialButton
         android:id="@+id/send_request_button"
@@ -82,7 +82,7 @@
         android:background="#E4E4E4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/user_name_text" />
+        app:layout_constraintStart_toStartOf="@+id/chat_title_text" />
 
     <ImageView
         android:id="@+id/remove_friend_image"
