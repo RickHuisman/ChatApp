@@ -2,14 +2,14 @@
 
     <style name="ChatApp.BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
+        <!--<item name="colorPrimaryLight">@color/colorPrimaryLight</item>-->
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="ChatApp.Theme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
+        <!--<item name="colorPrimaryLight">@color/colorPrimaryLight</item>-->
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>

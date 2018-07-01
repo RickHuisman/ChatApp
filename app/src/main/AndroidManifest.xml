@@ -44,6 +44,9 @@
             android:name=".activities.CreateChatActivity"
             android:theme="@style/ChatApp.BaseTheme.NoActionBar"
             />
+        <activity android:name=".activities.ChatActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar"/>
     </application>
 
 </manifest>

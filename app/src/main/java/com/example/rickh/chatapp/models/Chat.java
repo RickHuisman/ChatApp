@@ -1,9 +1,11 @@
 package com.example.rickh.chatapp.models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Chat {
+public class Chat implements Serializable {
 
+    String id;
     String title;
     HashMap<String, String> members;
     String lastMessage;
@@ -14,10 +16,20 @@ public class Chat {
 
     }
 
-    public Chat(String title, HashMap<String, String> members, String lastMessage, String lastMessageTime, String chatIconUrl) {
+    public Chat(String id, String title, HashMap<String, String> members, String lastMessage, String lastMessageTime, String chatIconUrl) {
+        this.id = id;
         this.title = title;
         this.members = members;
         this.lastMessage = lastMessage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Chat setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getTitle() {

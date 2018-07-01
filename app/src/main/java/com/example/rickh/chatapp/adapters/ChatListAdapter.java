@@ -1,7 +1,9 @@
 package com.example.rickh.chatapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.rickh.chatapp.R;
+import com.example.rickh.chatapp.activities.ChatActivity;
 import com.example.rickh.chatapp.models.Chat;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             mTitleText = itemView.findViewById(R.id.chat_title_text);
             mLastMessageText = itemView.findViewById(R.id.last_message_text);
             mLastMessageTimeText = itemView.findViewById(R.id.last_message_time_text);
-//            mDivider = itemView.findViewById(R.id.divider_view);
+            mDivider = itemView.findViewById(R.id.divider_view);
         }
     }
 
@@ -57,7 +60,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(final ChatListViewHolder holder, int position) {
-        Chat chat = mChatList.get(holder.getAdapterPosition());
+        final Chat chat = mChatList.get(holder.getAdapterPosition());
 
         if (chat.getChatIconUrl() != null)
             Glide
@@ -77,8 +80,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 //                        }
 //                    });
 
-//            if (holder.getAdapterPosition() == getItemCount() - 1)
-//                holder.mDivider.setVisibility(View.GONE);
+        if (holder.getAdapterPosition() == getItemCount() - 1)
+            holder.mDivider.setVisibility(View.GONE);
 
         if (chat.getTitle() != null)
             holder.mTitleText.setText(chat.getTitle());
@@ -88,6 +91,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
         if (chat.getLastMessageTime() != null)
             holder.mLastMessageTimeText.setText(chat.getLastMessageTime());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent(mContext, ChatActivity.class).putExtra("chatInfo", chat));
+            }
+        });
     }
 
     @Override

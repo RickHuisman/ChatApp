@@ -78,7 +78,7 @@ public class ChatsTabFragment extends Fragment {
 
                         mChatList = new ArrayList<>();
 
-                        for (DocumentSnapshot document: queryDocumentSnapshots) {
+                        for (final DocumentSnapshot document: queryDocumentSnapshots) {
                             db
                                     .collection("chats")
                                     .document(document.get("chatUid").toString())
@@ -87,7 +87,7 @@ public class ChatsTabFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                             if (task != null) {
-                                                Chat chat = task.getResult().toObject(Chat.class);
+                                                Chat chat = task.getResult().toObject(Chat.class).setId(document.getId());
                                                 mChatList.add(chat);
                                                 setUpList();
                                             }
