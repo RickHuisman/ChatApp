@@ -1,99 +1,149 @@
 package com.example.rickh.chatapp.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rickh.chatapp.R;
 import com.example.rickh.chatapp.models.Message;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapter.MessagesListViewHolder> {
+public class MessagesListAdapter extends RecyclerView.Adapter {
+
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
 
     private Context mContext;
-
     private ArrayList<Message> mMessagesList;
 
-    public static class MessagesListViewHolder extends RecyclerView.ViewHolder {
-//        public ImageView mChatIconImage;
-//        public TextView mTitleText, mLastMessageText, mLastMessageTimeText;
-//        public View mDivider;
-//
-        TextView mMessageText;
+    static class MessagesListViewHolder extends RecyclerView.ViewHolder {
 
-        public MessagesListViewHolder(View itemView) {
+        ImageView mUserImage;
+        TextView mMessageText, mDateText;
+        ConstraintLayout mContainer;
+        CardView mContainerMessage;
+
+        MessagesListViewHolder(View itemView) {
             super(itemView);
-            mMessageText = itemView.findViewById(R.id.message_text_layout);
-//            mChatIconImage = itemView.findViewById(R.id.chat_icon_image);
-//            mTitleText = itemView.findViewById(R.id.chat_title_text);
-//            mLastMessageText = itemView.findViewById(R.id.last_message_text);
-//            mLastMessageTimeText = itemView.findViewById(R.id.last_message_time_text);
-//            mDivider = itemView.findViewById(R.id.divider_view);
+            mUserImage = itemView.findViewById(R.id.user_image);
+            mMessageText = itemView.findViewById(R.id.message_text);
+            mDateText = itemView.findViewById(R.id.date_text);
+            mContainer = itemView.findViewById(R.id.container_message);
+            mContainerMessage = itemView.findViewById(R.id.container_message_text);
         }
     }
 
-    public MessagesListAdapter(Context context, ArrayList<Message> mMessagesList) {
+    public MessagesListAdapter(Context context, ArrayList<Message> messagesList) {
         this.mContext = context;
-        this.mMessagesList = mMessagesList;
+        this.mMessagesList = messagesList;
+
+        Collections.sort(mMessagesList);
     }
 
     @Override
-    public MessagesListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
 
-        return new MessagesListViewHolder(view);
+        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
+
+            return new SentMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_received, parent, false);
+
+            return new ReceivedMessageHolder(view);
+        }
+
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(final MessagesListViewHolder holder, int position) {
-        final Message message = mMessagesList.get(holder.getAdapterPosition());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Message message = (Message) mMessagesList.get(position);
 
-        holder.mMessageText.setText(message.getMessageText());
+        switch (holder.getItemViewType()) {
+            case VIEW_TYPE_MESSAGE_SENT:
+                ((SentMessageHolder) holder).bind(message);
+                break;
+            case VIEW_TYPE_MESSAGE_RECEIVED:
+                ((ReceivedMessageHolder) holder).bind(message);
+        }
+    }
 
-//        if (chat.getChatIconUrl() != null)
-//            Glide
-//                    .with(mContext)
-//                    .load("https://www.gravatar.com/avatar/4181551b7cb8eeb7cfa7f0f3d50f3ded?s=48&d=identicon&r=PG&f=1")
-//                    .into(holder.mChatIconImage);
-//
-////            Glide
-////                    .with(mContext)
-////                    .asBitmap()
-////                    .apply(RequestOptions.circleCropTransform())
-////                    .load(mChatList.get(position).getChatIconUrl())
-////                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-////                        @Override
-////                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-////                            holder.mChatIconImage.setImageDrawable("https://www.gravatar.com/avatar/4181551b7cb8eeb7cfa7f0f3d50f3ded?s=48&d=identicon&r=PG&f=1");
-////                        }
-////                    });
-//
-//        if (holder.getAdapterPosition() == getItemCount() - 1)
-//            holder.mDivider.setVisibility(View.GONE);
-//
-//        if (chat.getTitle() != null)
-//            holder.mTitleText.setText(chat.getTitle());
-//
-//        if (chat.getLastMessage() != null)
-//            holder.mLastMessageText.setText(chat.getLastMessage());
-//
-//        if (chat.getLastMessageTime() != null)
-//            holder.mLastMessageTimeText.setText(chat.getLastMessageTime());
-//
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mContext.startActivity(new Intent(mContext, ChatActivity.class).putExtra("chatInfo", chat));
-//            }
-//        });
+    @Override
+    public int getItemViewType(int position) {
+        Message message = (Message) mMessagesList.get(position);
+
+        String currentUserId = FirebaseAuth.getInstance().getUid();
+
+        if (message.getUserId().equals(currentUserId)) {
+            // If the current user is the sender of the message
+            return VIEW_TYPE_MESSAGE_SENT;
+        } else {
+            // If some other user sent the message
+            return VIEW_TYPE_MESSAGE_RECEIVED;
+        }
     }
 
     @Override
     public int getItemCount() {
         return mMessagesList.size();
+    }
+
+    private class SentMessageHolder extends RecyclerView.ViewHolder {
+
+        ImageView mUserImage;
+        TextView mMessageText, mDateText;
+        ConstraintLayout mContainer;
+        CardView mContainerMessage;
+
+        SentMessageHolder(View itemView) {
+            super(itemView);
+            mUserImage = itemView.findViewById(R.id.user_image);
+            mMessageText = itemView.findViewById(R.id.message_text);
+            mDateText = itemView.findViewById(R.id.date_text);
+            mContainer = itemView.findViewById(R.id.container_message);
+            mContainerMessage = itemView.findViewById(R.id.container_message_text);
+        }
+
+        void bind(Message message) {
+            if (!message.getMessageText().isEmpty())
+                mMessageText.setText(message.getMessageText());
+
+            if (message.getTime() != null)
+                mDateText.setText(message.getTime().toString());
+        }
+    }
+
+    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
+
+        TextView mMessageText, mDateText;
+
+        ReceivedMessageHolder(View itemView) {
+            super(itemView);
+            mMessageText = itemView.findViewById(R.id.message_text);
+            mDateText = itemView.findViewById(R.id.date_text);
+        }
+
+        void bind(Message message) {
+            if (!message.getMessageText().isEmpty())
+                mMessageText.setText(message.getMessageText());
+
+            if (message.getTime() != null)
+                mDateText.setText(message.getTime().toString());
+        }
     }
 }

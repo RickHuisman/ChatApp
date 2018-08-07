@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startHomeActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, HomeActivity.class));
         finishAffinity();
     }
 

@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rickh.chatapp.R;
-import com.example.rickh.chatapp.activities.MainActivity;
+import com.example.rickh.chatapp.activities.HomeActivity;
 import com.example.rickh.chatapp.adapters.ParticipantsListAdapter;
 import com.example.rickh.chatapp.models.Contact;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +32,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -202,7 +201,7 @@ public class CreateGroupChatFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             mProgressDialog.cancel();
-                                            startActivity(new Intent(getContext(), MainActivity.class));
+                                            startActivity(new Intent(getContext(), HomeActivity.class));
                                             getActivity().finish();
                                         }
                                     })

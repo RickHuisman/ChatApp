@@ -48,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
     private String mCurrentUser;
     private FirebaseFirestore mDatabase;
 
-    private ImageView mCloseImage, mDoneImage, mSelectProfileImage;
     private TextInputEditText mEmailInput, mUsernameInput, mPasswordInput;
     private TextInputLayout mEmailLayout, mUsernameLayout, mPasswordLayout;
 
@@ -65,22 +64,22 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseFirestore.getInstance();
 
-        mCloseImage = findViewById(R.id.close_image);
+        ImageView mCloseImage = findViewById(R.id.close_image);
         mCloseImage.setOnClickListener(closeClick);
 
-        mDoneImage = findViewById(R.id.done_image);
+        ImageView mDoneImage = findViewById(R.id.done_image);
         mDoneImage.setOnClickListener(doneClick);
 
-        mSelectProfileImage = findViewById(R.id.select_profile_image);
-        mSelectProfileImage.setOnClickListener(selectProfileImageClick);
+        ImageView mProfileImage = findViewById(R.id.select_profile_image);
+        mProfileImage.setOnClickListener(profileImageClick);
 
         mEmailInput = findViewById(R.id.email_edit_text);
-        mUsernameInput = findViewById(R.id.username_edit_text);
+        mUsernameInput = findViewById(R.id.username_text_input);
         mPasswordInput = findViewById(R.id.password_edit_text);
 
-        mEmailLayout = findViewById(R.id.email_text_input_layout);
-        mUsernameLayout = findViewById(R.id.username_text_input_layout);
-        mPasswordLayout = findViewById(R.id.password_text_input_layout);
+        mEmailLayout = findViewById(R.id.email_text_layout);
+        mUsernameLayout = findViewById(R.id.username_text_layout);
+        mPasswordLayout = findViewById(R.id.password_text_layout);
     }
 
     View.OnClickListener closeClick = new View.OnClickListener() {
@@ -107,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
-    View.OnClickListener selectProfileImageClick = new View.OnClickListener() {
+    View.OnClickListener profileImageClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             openGallery();
@@ -115,15 +114,18 @@ public class RegisterActivity extends AppCompatActivity {
     };
 
     private void buildConformationDialog(final String email, final String username, final String password) {
-        AlertDialog.Builder confromationDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.ChatApp_Theme_CustomDialog));
-        confromationDialog.setTitle("Create account without selecting a profile picture?");
-        confromationDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder conformationDialog = new AlertDialog.Builder(new ContextThemeWrapper(
+                this,
+                R.style.ChatApp_Theme_CustomDialog))
+                .setTitle("Create account without selecting a profile picture?");
+
+        conformationDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 createAccount(email, username, password);
             }
         });
-        confromationDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        conformationDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -131,8 +133,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        confromationDialog.create();
-        confromationDialog.show();
+        conformationDialog.create();
+        conformationDialog.show();
     }
 
     private boolean validateForm(String email, String username, String password) {
@@ -268,7 +270,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startHomeActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, HomeActivity.class));
         progressDialog.cancel();
         finishAffinity();
     }

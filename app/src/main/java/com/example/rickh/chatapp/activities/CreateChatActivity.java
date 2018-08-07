@@ -54,9 +54,8 @@ public class CreateChatActivity extends AppCompatActivity implements SelectConta
         FragmentTransaction transaction = mFragManager.beginTransaction();
         transaction.replace(R.id.frame_container, frag);
 
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
+        if (addToBackStack) transaction.addToBackStack(null);
+
         transaction.commit();
     }
 
@@ -74,10 +73,4 @@ public class CreateChatActivity extends AppCompatActivity implements SelectConta
         this.mSelectedContactsList = selectedContacts;
         goToFragment(1);
     }
-
-//    @Override
-//    public void fabClicked(ArrayList<Contact> selectedContacts) {
-//        this.mSelectedContactsList = selectedContacts;
-//        goToFragment(1);
-//    }
 }

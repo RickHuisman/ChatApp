@@ -24,29 +24,33 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.HomeActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
         <activity
             android:name=".activities.RegisterActivity"
-            android:theme="@style/ChatApp.BaseTheme.NoActionBar"/>
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/ChatApp.BaseTheme.NoActionBar"/>
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
         <activity
             android:name=".activities.AddFriendActivity"
-            android:theme="@style/ChatApp.BaseTheme.NoActionBar"
-            android:label="Add user"/>
+            android:label="Add user"
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
         <activity
             android:name=".activities.FriendRequestsActivity"
-            android:theme="@style/ChatApp.BaseTheme.NoActionBar"/>
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
         <activity
             android:name=".activities.CreateChatActivity"
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar" />
+        <activity
+            android:name=".activities.ChatActivity"
             android:theme="@style/ChatApp.BaseTheme.NoActionBar"
-            />
-        <activity android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/ChatApp.BaseTheme.NoActionBar"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".activities.ChatInfoActivity"
+            android:label="@string/title_activity_chat_info"
+            android:theme="@style/ChatApp.BaseTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

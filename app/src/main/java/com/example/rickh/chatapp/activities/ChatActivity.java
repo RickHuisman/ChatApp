@@ -1,5 +1,6 @@
 package com.example.rickh.chatapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,7 +41,7 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
-    Chat chat;
+    Chat mChat;
 
     EditText mMessageInput;
     String message;
@@ -53,12 +54,26 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        chat = (Chat) getIntent().getExtras().getSerializable("chatInfo");
+        mChat = (Chat) getIntent().getExtras().getSerializable("chatInfo");
 
         mMessagesListRv = findViewById(R.id.messages_list);
 
+        mMessagesListRv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    mMessagesListRv.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMessagesListRv.smoothScrollToPosition(mAdapter.getItemCount());
+                        }
+                    }, 100);
+                }
+            }
+        });
+
         TextView toolbarTitleText = findViewById(R.id.toolbar_title_text);
-        toolbarTitleText.setText(chat.getTitle());
+        toolbarTitleText.setText(mChat.getTitle());
 
         mMessageInput = findViewById(R.id.message_input);
 
@@ -77,7 +92,7 @@ public class ChatActivity extends AppCompatActivity {
     };
 
     private void loadMessages() {
-        CollectionReference messagesRef = FirebaseFirestore.getInstance().collection("chats/" + chat.getId() + "/messages");
+        CollectionReference messagesRef = FirebaseFirestore.getInstance().collection("chats/" + mChat.getId() + "/messages");
 
         messagesRef
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -93,6 +108,8 @@ public class ChatActivity extends AppCompatActivity {
 
                             System.out.println("Messages: " + testMessage.getMessageText());
                         }
+
+                        mMessagesList.add(new Message("afd", "Gastroenteritis means inflammatinn of stomach as well gastrointestinal tract.", new Date(4, 2, 1), "authListener"));
 
                         mAdapter = new MessagesListAdapter(getApplicationContext(), mMessagesList);
 
@@ -119,7 +136,7 @@ public class ChatActivity extends AppCompatActivity {
 
         DocumentReference sendMessageRef =
                 db.collection("chats")
-                .document(chat.getId())
+                .document(mChat.getId())
                 .collection("messages")
                 .document();
 
@@ -149,7 +166,7 @@ public class ChatActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-
+                            mMessageInput.setText("");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -164,10 +181,10 @@ public class ChatActivity extends AppCompatActivity {
     private void setUpChatIcon() {
         ImageView chatIconImage = findViewById(R.id.chat_icon_image);
 
-        if (!TextUtils.isEmpty(chat.getChatIconUrl())) {
+        if (!TextUtils.isEmpty(mChat.getChatIconUrl())) {
             Glide
                     .with(this)
-                    .load(chat.getChatIconUrl())
+                    .load(mChat.getChatIconUrl())
                     .into(chatIconImage);
         } else {
             chatIconImage.setImageDrawable(getDrawable(R.drawable.ic_person_add_white_24dp));
@@ -176,7 +193,7 @@ public class ChatActivity extends AppCompatActivity {
         chatIconImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO chat info fragment
+                startActivity(new Intent(getApplicationContext(), ChatInfoActivity.class));
             }
         });
     }

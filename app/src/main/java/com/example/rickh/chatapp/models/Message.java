@@ -1,8 +1,10 @@
 package com.example.rickh.chatapp.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
-public class Message {
+public class Message implements Comparable<Message> {
 
     String id;
     String messageText;
@@ -51,5 +53,10 @@ public class Message {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public int compareTo(@NonNull Message message) {
+        return getTime().compareTo(message.getTime());
     }
 }

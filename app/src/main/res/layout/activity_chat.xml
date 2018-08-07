@@ -65,9 +65,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:background="#eeeeee"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -76,6 +77,7 @@
             android:id="@+id/messages_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
             android:layout_alignParentStart="true"
             app:layout_constraintBottom_toTopOf="@+id/cardView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,8 +131,9 @@
             android:scaleType="center"
             app:fabCustomSize="46dp"
             app:layout_constraintBottom_toBottomOf="@+id/cardView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_send_white_24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
+            <!--app:srcCompat="@drawable/ic_send_white_24dp"-->
+
 
     </android.support.constraint.ConstraintLayout>
 

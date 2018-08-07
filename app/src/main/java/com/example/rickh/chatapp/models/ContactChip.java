@@ -18,10 +18,6 @@ public class ContactChip extends Chip {
         return contactId;
     }
 
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
-    }
-
     @Override
     public void setTextAppearance(int resId) {
         super.setTextAppearance(resId);

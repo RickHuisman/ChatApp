@@ -47,10 +47,7 @@ import java.util.Iterator;
 public class SelectContactsFragment extends Fragment implements CreateChatListAdapter.AdapterCallback {
 
     private View mView;
-    private Toolbar toolbar;
-    private FloatingActionButton nextFragmentFab;
     private LinearLayout mChipContainer;
-    private RecyclerView mRecyclerView;
     private CreateChatListAdapter mAdapter;
 
     private ArrayList<Contact> mContactList;
@@ -65,7 +62,7 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
         mView = inflater.inflate(R.layout.fragment_select_contacts, container, false);
 
         setUpToolbar();
-        createTestList();
+        getContacts();
         setUpFab();
 
         mSelectedContactsList = new ArrayList<>();
@@ -77,7 +74,7 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
     }
 
     private void setUpToolbar() {
-        toolbar = mView.findViewById(R.id.toolbar);
+        Toolbar toolbar = mView.findViewById(R.id.toolbar);
 
         ImageView backImage = mView.findViewById(R.id.back_image);
         backImage.setOnClickListener(new View.OnClickListener() {
@@ -119,12 +116,12 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
     }
 
     private void setUpFab() {
-        nextFragmentFab = mView.findViewById(R.id.quick_action_fab);
+        FloatingActionButton nextFragmentFab = mView.findViewById(R.id.quick_action_fab);
         nextFragmentFab.setOnClickListener(onFabClick);
     }
 
     private void setUpRecyclerView(ArrayList<Contact> contactsList) {
-        mRecyclerView = mView.findViewById(R.id.contacts_list);
+        RecyclerView mRecyclerView = mView.findViewById(R.id.contacts_list);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
 
@@ -134,16 +131,15 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void createTestList() {
+    private void getContacts() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final String mCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final CollectionReference contactsRef = db.collection("users").document(mCurrentUser).collection("friends");
+        final String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final CollectionReference contactsRef = db.collection("users").document(currentUser).collection("friends");
 
         contactsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    System.out.println("Listen failed. " + e);
                     return;
                 }
 
@@ -165,8 +161,7 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
                                         String imageDownloadUrl = (String) task.getResult().get("downloadUrl");
                                         String userUid = (String) task.getResult().get("userUid");
 
-                                        System.out.println("finali = " + finalI);
-                                        if (!userUid.equals(mCurrentUser))
+                                        if (!userUid.equals(currentUser))
                                             mContactList.add(new Contact(finalI, userUid, imageDownloadUrl, username));
 
                                         setUpRecyclerView(mContactList);
@@ -284,9 +279,9 @@ public class SelectContactsFragment extends Fragment implements CreateChatListAd
             }
             for(Iterator<ContactChip> iterator = mChipList.iterator(); iterator.hasNext(); ) {
                 if(iterator.next().getContactId() == position) {
-                    for (ContactChip p : mChipList) {
-                        if (p.getContactId() == position) {
-                            mChipContainer.removeView(mChipList.get(mChipList.indexOf(p)));
+                    for (ContactChip contactChip : mChipList) {
+                        if (contactChip.getContactId() == position) {
+                            mChipContainer.removeView(mChipList.get(mChipList.indexOf(contactChip)));
                             break;
                         }
                     }
